@@ -1,0 +1,9 @@
+{
+  "name": "JSL VIOLET PLAYER",
+  "short_name": "JSL",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b0015",
+  "theme_color": "#e100ff",
+  "icons":
+}
