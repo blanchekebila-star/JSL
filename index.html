@@ -199,6 +199,10 @@
     function tShuf() { isShuf = !isShuf; document.getElementById('shuf-btn').classList.toggle('active', isShuf); }
     function tRep() { isRep = !isRep; document.getElementById('rep-btn').classList.toggle('active', isRep); }
     a.onended = () => isRep ? a.play() : next();
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+
 </script>
 </body>
 </html>
