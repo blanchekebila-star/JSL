@@ -4,216 +4,202 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>JSL VIOLET ULTIMATE</title>
+    <title>JSL VIOLET ULTIMATE V3</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root { --p: #e100ff; --s: #9d50bb; --bg: #05000a; --card: #12001f; --w: #f5f0ff; --mu: #664488; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); font-family: 'Rajdhani', sans-serif; color: var(--w); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* WELCOME WOW */
-        #welcome { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        .scanline { position: absolute; width: 100%; height: 2px; background: var(--p); box-shadow: 0 0 20px var(--p); top: 0; animation: scan 3s linear infinite; }
-        @keyframes scan { from { top: 0; } to { top: 100%; } }
-        .w-title { font-family: 'Orbitron'; font-size: 3.5rem; font-weight: 900; text-align: center; line-height: 1; background: linear-gradient(to bottom, #fff, var(--p)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 20px var(--s)); }
-        .w-sub { letter-spacing: 8px; color: var(--s); margin-top: 10px; font-weight: 700; text-transform: uppercase; }
-        .w-btn { margin-top: 50px; padding: 20px 60px; border: 2px solid var(--p); background: transparent; color: var(--w); font-family: 'Orbitron'; cursor: pointer; position: relative; overflow: hidden; }
-        .w-btn::before { content: ''; position: absolute; inset: 0; background: var(--p); transform: scaleX(0); transition: 0.3s; transform-origin: left; z-index: -1; }
-        .w-btn:active::before { transform: scaleX(1); }
+        /* BIENVENUE */
+        #welcome { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.8s ease-in-out; }
+        .w-title { font-family: 'Orbitron'; font-size: 3rem; font-weight: 900; background: linear-gradient(#fff, var(--p)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
+        .w-btn { margin-top: 40px; padding: 20px 60px; border: 2px solid var(--p); background: transparent; color: #fff; font-family: 'Orbitron'; cursor: pointer; }
 
-        /* LAYOUT */
-        #app { display: none; height: 100%; flex-direction: column; opacity: 0; }
-        #app.on { display: flex; opacity: 1; }
-        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(225,0,255,0.1); }
-        .search-bar { background: var(--card); border: 1px solid var(--s); padding: 8px 15px; border-radius: 20px; width: 50%; color: white; font-family: inherit; outline: none; }
+        /* APP LAYOUT */
+        #app { display: none; height: 100%; flex-direction: column; padding-top: env(safe-area-inset-top); }
+        #app.on { display: flex; }
 
-        .content { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        /* TOP BAR */
+        .top-nav { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { font-family: 'Orbitron'; font-size: 0.6rem; color: var(--p); border: 1px solid var(--p); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 5px; }
+        .status-badge::before { content: ''; width: 6px; height: 6px; background: var(--p); border-radius: 50%; box-shadow: 0 0 8px var(--p); }
 
-        /* DISQUE GEANT WOW */
-        .player-zone { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
-        .disk-outer { width: 260px; height: 260px; border-radius: 50%; border: 8px solid var(--card); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 50px rgba(157, 80, 187, 0.2); margin-bottom: 30px; }
-        .disk-inner { width: 100%; height: 100%; border-radius: 50%; background: repeating-radial-gradient(circle, #1a002a 0, #05000a 2px); display: flex; align-items: center; justify-content: center; border: 2px solid var(--s); }
-        .disk-inner.play { animation: rotate 3s linear infinite; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .center-neon { width: 60px; height: 60px; background: var(--bg); border: 4px solid var(--p); border-radius: 50%; box-shadow: inset 0 0 20px var(--p), 0 0 20px var(--p); }
+        /* MAIN PLAYER AREA */
+        .player-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 30px; }
+        
+        /* POCHETTE GEANTE */
+        .cover-art { width: 280px; height: 280px; background: var(--card); border-radius: 20px; border: 2px solid var(--bd); position: relative; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 30px; overflow: hidden; }
+        .cover-art img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .cover-art::after { content: 'JSL'; font-family: 'Orbitron'; font-size: 4rem; opacity: 0.1; color: var(--p); position: absolute; }
+        .playing-ring { position: absolute; inset: -5px; border: 2px solid var(--p); border-radius: 25px; opacity: 0; transition: 0.3s; }
+        .is-playing .playing-ring { opacity: 0.4; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(1.05); opacity: 0; } }
 
-        /* INFOS & TIMELINE */
-        .track-name { font-family: 'Orbitron'; font-size: 1.4rem; color: #fff; text-align: center; margin-bottom: 5px; text-shadow: 0 0 10px var(--s); }
-        .track-meta { color: var(--mu); margin-bottom: 25px; font-weight: 700; letter-spacing: 2px; }
+        /* INFOS TITRE */
+        .track-info { text-align: center; margin-bottom: 30px; }
+        .t-title { font-family: 'Orbitron'; font-size: 1.6rem; color: #fff; margin-bottom: 8px; }
+        .t-artist { color: var(--s); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
 
-        .timeline { width: 100%; height: 12px; background: var(--card); border-radius: 6px; cursor: pointer; position: relative; margin-bottom: 35px; }
-        .progress { height: 100%; background: linear-gradient(90deg, var(--s), var(--p)); border-radius: 6px; width: 0%; position: relative; }
-        .progress::after { content: ''; position: absolute; right: -8px; top: -6px; width: 24px; height: 24px; background: #fff; border-radius: 50%; box-shadow: 0 0 15px var(--p); }
+        /* TIMELINE FAT TOUCH */
+        .timeline-container { width: 100%; margin-bottom: 40px; }
+        .time-labels { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.6rem; color: var(--mu); margin-bottom: 10px; }
+        .timeline-bg { width: 100%; height: 20px; background: var(--card); border-radius: 10px; position: relative; cursor: pointer; display: flex; align-items: center; }
+        .timeline-fill { height: 100%; background: linear-gradient(90deg, var(--s), var(--p)); border-radius: 10px; width: 0%; position: relative; }
+        .timeline-handle { position: absolute; right: -10px; top: -5px; width: 30px; height: 30px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px var(--p); }
 
         /* CONTROLES GÉANTS */
-        .controls { display: flex; width: 100%; justify-content: space-around; align-items: center; margin-bottom: 30px; }
-        .btn-side { font-size: 1.8rem; color: var(--s); background: none; border: none; cursor: pointer; }
-        .btn-play { width: 90px; height: 90px; border-radius: 50%; background: var(--p); border: none; color: white; font-size: 2.2rem; box-shadow: 0 0 30px var(--p); cursor: pointer; }
-        .btn-side.active { color: var(--p); text-shadow: 0 0 15px var(--p); }
+        .main-controls { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .ctrl-btn { background: none; border: none; color: var(--w); font-size: 2rem; cursor: pointer; padding: 10px; }
+        .play-btn-circle { width: 90px; height: 90px; background: var(--p); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 0 30px var(--p); }
+        .ctrl-btn.active { color: var(--p); }
 
-        .volume-zone { width: 100%; display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
-        input[type=range] { flex: 1; accent-color: var(--p); height: 10px; cursor: pointer; }
-
-        /* PLAYLIST CLASSEMENT */
-        .library { width: 100%; border-top: 2px solid var(--card); padding-top: 20px; }
-        .lib-header { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--s); margin-bottom: 15px; letter-spacing: 3px; display: flex; justify-content: space-between; }
-        .track-item { background: var(--card); padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 0px solid var(--p); transition: 0.2s; }
-        .track-item.active { border-left: 6px solid var(--p); background: rgba(225, 0, 255, 0.1); }
-        .track-item h4 { font-size: 1rem; color: #fff; }
-        .track-item p { font-size: 0.7rem; color: var(--mu); }
+        /* FOOTER LIBRARY */
+        .bottom-shelf { background: var(--card); border-top-left-radius: 30px; border-top-right-radius: 30px; padding: 25px; max-height: 30vh; overflow-y: auto; }
+        .shelf-title { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--s); margin-bottom: 15px; letter-spacing: 2px; }
+        .song-row { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .song-row.active { color: var(--p); }
     </style>
 </head>
 <body>
 
 <div id="welcome">
-    <div class="scanline"></div>
-    <div class="w-title">JIN START<br>LINE</div>
-    <div class="w-sub">System V.2 Ultimate</div>
+    <div class="w-title">JIN START LINE</div>
     <button class="w-btn" onclick="boot()">INITIALISER</button>
 </div>
 
 <div id="app">
-    <div class="header">
-        <div style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--p);">LIBRARY</div>
-        <input type="text" class="search-bar" placeholder="RECHERCHER..." oninput="search(this.value)">
-        <button onclick="document.getElementById('f').click()" style="background:none; border: 1px solid var(--p); color: var(--p); padding: 5px 10px; font-family:'Orbitron'; font-size: 0.5rem; cursor:pointer;">+ IMPORT</button>
+    <div class="top-nav">
+        <div class="status-badge">OFFLINE VERIFIED</div>
+        <div class="status-badge" id="fmt-badge">MP3</div>
+        <button onclick="document.getElementById('f').click()" style="background:none; border:none; color:var(--p); font-family:'Orbitron'; font-size:0.7rem;">+ IMPORT</button>
         <input type="file" id="f" hidden multiple accept="audio/*">
     </div>
 
-    <div class="content">
-        <div class="player-zone">
-            <div class="disk-outer">
-                <div class="disk-inner" id="disk">
-                    <div class="center-neon"></div>
+    <div class="player-main" id="player-container">
+        <div class="cover-art" id="art">
+            <div class="playing-ring"></div>
+        </div>
+
+        <div class="track-info">
+            <h2 class="t-title" id="t-title">AUCUN TITRE</h2>
+            <p class="t-artist" id="t-artist">JSL SYSTEM</p>
+        </div>
+
+        <div class="timeline-container">
+            <div class="time-labels">
+                <span id="time-cur">0:00</span>
+                <span id="time-dur">0:00</span>
+            </div>
+            <div class="timeline-bg" id="t-bg">
+                <div class="timeline-fill" id="t-fill">
+                    <div class="timeline-handle"></div>
                 </div>
             </div>
-            
-            <h2 class="track-name" id="t-name">HORS LIGNE</h2>
-            <p class="track-meta" id="t-meta">SYSTÈME PRÊT</p>
-
-            <div class="timeline" id="t-line">
-                <div class="progress" id="t-prog"></div>
-            </div>
-
-            <div class="controls">
-                <button class="btn-side" id="loop" onclick="tLoop()">🔁</button>
-                <button class="btn-side" onclick="prev()">⏮</button>
-                <button class="btn-play" id="p-btn" onclick="tPlay()">▶</button>
-                <button class="btn-side" onclick="next()">⏭</button>
-                <button class="btn-side" id="shuf" onclick="tShuf()">🔀</button>
-            </div>
-
-            <div class="volume-zone">
-                <span style="font-size:0.6rem; color:var(--s); font-family:'Orbitron';">VOL</span>
-                <input type="range" min="0" max="1" step="0.05" value="0.8" oninput="vChange(this.value)">
-            </div>
         </div>
 
-        <div class="library">
-            <div class="lib-header">
-                <span id="count">0 MORCEAUX</span>
-                <span>TRIÉ PAR NOM</span>
-            </div>
-            <div id="list"></div>
+        <div class="main-controls">
+            <button class="ctrl-btn" id="shuf-btn" onclick="tShuf()">⇄</button>
+            <button class="ctrl-btn" onclick="prev()">⏮</button>
+            <div class="play-btn-circle" onclick="tPlay()" id="p-btn">▶</div>
+            <button class="ctrl-btn" onclick="next()">⏭</button>
+            <button class="ctrl-btn" id="rep-btn" onclick="tRep()">⟳</button>
         </div>
+    </div>
+
+    <div class="bottom-shelf" id="list">
+        <p class="shelf-title">MA BIBLIOTHÈQUE</p>
+        <!-- Liste ici -->
     </div>
 </div>
 
 <audio id="a"></audio>
 
 <script>
-    let db, songs = [], filtered = [], cur = -1, isLoop = false, isShuf = false;
-    const a = document.getElementById('a'), pBtn = document.getElementById('p-btn'), disk = document.getElementById('disk');
+    let db, songs = [], cur = -1, isRep = false, isShuf = false;
+    const a = document.getElementById('a'), pBtn = document.getElementById('p-btn');
 
     function boot() {
-        document.getElementById('welcome').style.transform = 'translateY(-100%)';
-        setTimeout(() => {
-            document.getElementById('app').style.display = 'flex';
-            setTimeout(() => document.getElementById('app').classList.add('on'), 50);
-        }, 500);
+        document.getElementById('welcome').style.opacity = '0';
+        setTimeout(() => { document.getElementById('welcome').style.display = 'none'; document.getElementById('app').classList.add('on'); }, 800);
     }
 
-    const req = indexedDB.open("JSL_ULTIMATE", 1);
+    const req = indexedDB.open("JSL_V3_ULTIMATE", 1);
     req.onupgradeneeded = e => e.target.result.createObjectStore("s", { keyPath: "id", autoIncrement: true });
-    req.onsuccess = e => { db = e.target.result; refresh(); };
+    req.onsuccess = e => { db = e.target.result; load(); };
 
     document.getElementById('f').onchange = async (e) => {
         for (let file of e.target.files) {
-            const data = { name: file.name.replace(/\.[^/.]+$/, ""), file: await toB(file), date: Date.now() };
+            const data = { name: file.name.replace(/\.[^/.]+$/, ""), file: await toB(file), type: file.type.split('/')[1].toUpperCase() };
             const tx = db.transaction("s", "readwrite");
             tx.objectStore("s").add(data);
-            tx.oncomplete = () => refresh();
+            tx.oncomplete = () => load();
         }
     };
 
     function toB(file) { return new Promise(r => { const rd = new FileReader(); rd.onload = e => r(e.target.result); rd.readAsDataURL(file); }); }
 
-    function refresh() {
+    function load() {
         songs = [];
         db.transaction("s").objectStore("s").openCursor().onsuccess = e => {
             const c = e.target.result;
             if (c) { songs.push(c.value); c.continue(); }
-            else { render(songs); }
+            else { render(); }
         };
     }
 
-    function render(data) {
-        filtered = data;
+    function render() {
         const l = document.getElementById('list');
-        l.innerHTML = "";
-        document.getElementById('count').innerText = data.length + " MORCEAUX";
-        data.forEach((s, i) => {
-            const div = document.createElement('div');
-            div.className = `track-item ${cur === i ? 'active' : ''}`;
-            div.id = "s-" + i;
-            div.innerHTML = `<div><h4>${s.name}</h4><p>FICHIER LOCAL • MP3</p></div><span>0${i+1}</span>`;
-            div.onclick = () => play(i);
-            l.appendChild(div);
+        l.innerHTML = '<p class="shelf-title">MA BIBLIOTHÈQUE</p>';
+        songs.forEach((s, i) => {
+            const d = document.createElement('div');
+            d.className = `song-row ${cur === i ? 'active' : ''}`;
+            d.innerHTML = `<div><div style="font-weight:700">${s.name}</div><div style="font-size:0.6rem; opacity:0.5">${s.type} • OFFLINE</div></div>`;
+            d.onclick = () => play(i);
+            l.appendChild(d);
         });
     }
 
     function play(i) {
-        cur = i;
-        const s = filtered[i];
-        a.src = s.file;
-        a.play();
-        document.getElementById('t-name').innerText = s.name;
-        document.getElementById('t-meta').innerText = "LECTURE EN COURS";
+        cur = i; const s = songs[i];
+        a.src = s.file; a.play();
+        document.getElementById('t-title').innerText = s.name;
+        document.getElementById('fmt-badge').innerText = s.type;
         pBtn.innerText = "⏸";
-        disk.classList.add('play');
-        document.querySelectorAll('.track-item').forEach(x => x.classList.remove('active'));
-        document.getElementById('s-'+i).classList.add('active');
+        document.getElementById('player-container').classList.add('is-playing');
+        render();
     }
 
     function tPlay() {
-        if (cur === -1 && filtered.length > 0) return play(0);
-        if (a.paused) { a.play(); pBtn.innerText = "⏸"; disk.classList.add('play'); }
-        else { a.pause(); pBtn.innerText = "▶"; disk.classList.remove('play'); }
+        if (cur === -1 && songs.length > 0) return play(0);
+        if (a.paused) { a.play(); pBtn.innerText = "⏸"; document.getElementById('player-container').classList.add('is-playing'); }
+        else { a.pause(); pBtn.innerText = "▶"; document.getElementById('player-container').classList.remove('is-playing'); }
     }
 
-    function next() {
-        let n = isShuf ? Math.floor(Math.random()*filtered.length) : cur + 1;
-        if (n >= filtered.length) n = 0;
-        play(n);
-    }
+    function next() { let n = isShuf ? Math.floor(Math.random()*songs.length) : cur+1; if (n >= songs.length) n = 0; play(n); }
+    function prev() { let p = cur-1; if (p < 0) p = songs.length-1; play(p); }
 
-    function prev() {
-        let p = cur - 1; if (p < 0) p = filtered.length - 1;
-        play(p);
-    }
+    function fmtTime(s) { const m = Math.floor(s/60); const sc = Math.floor(s%60); return `${m}:${sc < 10 ? '0' : ''}${sc}`; }
 
-    function search(v) {
-        const res = songs.filter(s => s.name.toLowerCase().includes(v.toLowerCase()));
-        render(res);
-    }
+    a.ontimeupdate = () => {
+        const p = (a.currentTime / a.duration) * 100;
+        document.getElementById('t-fill').style.width = p + "%";
+        document.getElementById('time-cur').innerText = fmtTime(a.currentTime);
+        document.getElementById('time-dur').innerText = fmtTime(a.duration || 0);
+    };
 
-    function tLoop() { isLoop = !isLoop; document.getElementById('loop').classList.toggle('active', isLoop); }
-    function tShuf() { isShuf = !isShuf; document.getElementById('shuf').classList.toggle('active', isShuf); }
-    function vChange(v) { a.volume = v; }
+    document.getElementById('t-bg').onclick = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        a.currentTime = pos * a.duration;
+    };
 
-    a.onended = () => isLoop ? a.play() : next();
-    a.ontimeupdate = () => document.getElementById('t-prog').style.width = (a.currentTime/a.duration)*100 + "%";
-    document.getElementById('t-line').onclick = (e) => a.currentTime = ((e.clientX - e.target.getBoundingClientRect().left) / e.target.offsetWidth) * a.duration;
+    function tShuf() { isShuf = !isShuf; document.getElementById('shuf-btn').classList.toggle('active', isShuf); }
+    function tRep() { isRep = !isRep; document.getElementById('rep-btn').classList.toggle('active', isRep); }
+    a.onended = () => isRep ? a.play() : next();
 </script>
 </body>
 </html>
+
+
+   
